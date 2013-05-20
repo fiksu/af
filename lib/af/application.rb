@@ -27,7 +27,7 @@ module Af
     # subclasses.
 
     opt_group :basic, "basic options", :priority => 0, :description => <<-DESCRIPTION
-      These are the stanadard options offered to all Af commands.
+      These are the standard options offered to all Af commands.
     DESCRIPTION
 
     opt_group :basic do
@@ -116,7 +116,7 @@ module Af
     # TODO AK: I still don't love that we have to rewrite ARGV to call
     # applications within Ruby.  I would prefer it if passing a hash of
     # arguments prevented the use of Getoptlong and the args hash was
-    # processed according to the configred switches.
+    # processed according to the configured switches.
     # TODO AK: Can we rename this to "run_with_arguments"?
     def self._run(*arguments)
       # this ARGV hack is here for test specs to add script arguments
@@ -145,7 +145,7 @@ module Af
     # whatever specific code we are looking to maintain the
     # execution context.
     #
-    # one can imagine overlaoding this function with something
+    # one can imagine overloading this function with something
     # call initiates a profiler or debugger
     def _work
       begin
@@ -180,7 +180,7 @@ module Af
 
     protected
 
-    # TODO AK: What happens if this is called multiple times? It's not guarenteed
+    # TODO AK: What happens if this is called multiple times? It's not guaranteed
     # to only return the singleton object, right?
     def initialize
       super
