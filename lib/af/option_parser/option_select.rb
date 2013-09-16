@@ -39,20 +39,27 @@ module ::Af::OptionParser
         raise OptionSelectError.new("An array of options must be specified")
       end
 
-      # Populate the options_set array with all instantiated class/instance variables
       options_set = []
-      targets.each do |target|
-        if target_container.try(target.to_sym).present?
-          options_set << target
+      # Retrieve options assigned to target_variable
+      select_option = target_container.try(target_variable.to_sym)
+      select_option = [select_option] if !select_option.is_a? Array
+      # Assigned options should be included in the targets array
+      if select_option.present? && select_option != [nil]
+        select_option.each do |option|
+          if targets.include?(option)
+            options_set << option
+          else
+            raise OptionSelectError.new("Unrecognized option #{option}. Please choose from: #{targets.join(', ')}")
+          end
         end
       end
 
       if action == :one_of && options_set.size != 1
-        raise OptionSelectError.new("You must specify only one of these options: --#{targets.join(', --')}")
+        raise OptionSelectError.new("You must specify only one of these options: #{targets.join(', ')}")
       elsif action == :none_or_one_of && options_set.size > 1
-        raise OptionSelectError.new("You must specify no more than one of these options: --#{targets.join(', --')}")
+        raise OptionSelectError.new("You must specify no more than one of these options: #{targets.join(', ')}")
       elsif action == :one_or_more_of && options_set.size < 1
-        raise OptionSelectError.new("You must specify at least one of these options: --#{targets.join(', --')}")
+        raise OptionSelectError.new("You must specify at least one of these options: #{targets.join(', ')}")
       end
     end
 
