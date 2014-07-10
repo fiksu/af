@@ -168,6 +168,11 @@ module Af
         logger.warn e
         @has_errors = true
       rescue Exception => e
+        # RSpec occasionally uses a special exception when running tests to verify test
+        # results. To ensure that exception passes through to RSpec, we catch it
+        # specifically and re-raise it if needed.
+        raise e if e.class.name == "RSpec::Mocks::MockExpectationError"
+
         # catching Exception cause some programs and libraries suck
         logger.error "fatal error during work: #{e.message}"
         logger.warn e
